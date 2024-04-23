@@ -1,0 +1,45 @@
+{
+  "name": "config_prod",
+  "description": "config_prod",
+  "visibility": "Private",
+  "creator": "ITMT",
+  "trainer": "prodLDA",
+  "TrDtSet": "/export/usuarios_ml4ds/lbartolome/Repos/intelcomp_repos/topicmodeler/scalability/datasets/s2cs_01.json",
+  "Preproc": {
+    "min_lemas": 15,
+    "no_below": 10,
+    "no_above": 0.6,
+    "keep_n": 500000,
+    "stopwords": [
+      "/export/usuarios_ml4ds/lbartolome/Repos/intelcomp_repos/topicmodeler/wordlists/S2CS_stopwords.json"
+    ],
+    "equivalences": [
+      "/export/usuarios_ml4ds/lbartolome/Repos/intelcomp_repos/topicmodeler/wordlists/S2CS_equivalences.json"
+    ]
+  },
+  "TMparam": {
+    "ntopics": 25,
+    "model_type": "prodLDA",
+    "hidden_sizes": [
+      100,
+      100
+    ],
+    "activation": "softplus",
+    "dropout": 0.2,
+    "learn_priors": true,
+    "lr": 0.002,
+    "momentum": 0.99,
+    "solver": "adam",
+    "num_epochs": 100,
+    "reduce_on_plateau": false,
+    "batch_size": 64,
+    "topic_prior_mean": 0.0,
+    "topic_prior_variance": null,
+    "num_samples": 10,
+    "num_data_loader_workers": 0,
+    "thetas_thr": 0.003
+  },
+  "creation_date": "2024-04-16 04:38:58.100215",
+  "hierarchy-level": 0,
+  "htm-version": null
+}

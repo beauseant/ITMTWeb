@@ -1,0 +1,10 @@
+import json
+import time
+
+
+with open('/var/www/html/assets/data/26.json') as fich:
+	data  = json.load(fich)
+
+time.sleep(3)
+
+print ('[{"a":1,"b":2,"c":3,"d":4,"e":5},{"b":20,"a":10,"c":30,"d":40,"e":50}]')

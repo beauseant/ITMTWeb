@@ -1,0 +1,3 @@
+[submodule "app/topicmodeler"]
+	path = app/topicmodeler
+	url = https://github.com/IntelCompH2020/topicmodeler

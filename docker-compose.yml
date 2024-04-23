@@ -1,0 +1,29 @@
+#docker network create -d bridge ml4ds_net --subnet 10.50.0.0/20 --attachable 
+#docker build --tag phppython .
+#docker-compose up -d
+version: "3.2"
+
+networks:
+  web-net:
+    name: ml4ds_net
+    external: true
+
+services:
+  web:
+    #image: phppython
+    build: .
+    #definirla en el bash antes de hacer el docker-compose up:
+    environment:
+      - OPENAI_API_KEY
+    ports:
+      - "4080:80"
+    networks:
+      - web-net       
+    volumes:
+        - ./app:/var/www/html  
+        - /export/usuarios_ml4ds/lbartolome/:/export/usuarios_ml4ds/lbartolome/
+
+volumes:
+  app:
+
+
