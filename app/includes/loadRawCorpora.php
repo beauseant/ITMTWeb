@@ -28,26 +28,41 @@
         </script>
     </head>
     <body>    
+
     <?php
 
 
 
-                        $data = shell_exec ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/manageCorpus/manageCorpus.py --listDownloaded --path_downloaded '. $_SESSION['path_downloaded'] . ' 2>&1');
-                        
-                        $data = json_decode ( $data, true);
-
+                        require_once ('class/class.rawCorpora.php');
+                        $rc = new rawCorpora ();
+                        $data = $rc ->getrawCorpora();
                         $listkeys = array_keys(reset ($data));
-                        
+
                         $table = '
-                                <table class="table table-striped">
-                                   <form action="trainRawCorpora.php" method="post"
+                        <form action="../createLogicalCorpora.php" method="post">
+                            <div class="container-fluid">
+                                    <h1 style="color:#f03c02;">Corpora data:</h1>
+                                    <hr></hr> 
+                                    <div class="row">
+                                    <div class="col-md-auto"><label>Name</label></div>
+                                    <div class="col col-lg2"><input type="text" class="form-control" id="Name" placeholder="Name" value="Name" required></div>
+                                    <div class="col-md-auto"><label for>Description</label></div>
+                                        <div class="col col-lg6"><textarea class="form-control" id="description" rows="3" cols="50" required></textarea></div>
+                                    <div class="col-md-auto"><label>Private</label></div>
+                                    <div class="col-md-auto"><input type="checkbox" class="check" name="private"></div>
+                                    </div>
+                          </div>
+                          <div class="container-fluid">
+                                <h1 style="color:#f03c02;">Fields to be included:</h1>
+                                <hr></hr>                         
+                                <table class="table table-striped">                                   
                                        <thead>
                                           <tr>                                    
-                                ';
+                        ';
                         foreach ($listkeys as $value) {
                             $table = $table . '<th scope="col">' . $value . '</th>';
                         }
-                        $table = $table . '<th scope="col">' .'train' . '</th>';
+                        $table = $table . '<th scope="col">' .'' . '</th>';
 
 
                         $table = $table . '
@@ -66,8 +81,7 @@
                             } 
                             
                             $form = '
-                                        <input type="hidden" id="model" name="model" value="'. $value['name']  .'">
-                                        <input type="checkbox" class="check" id="train" name="model" value="'. $value['name'] .'">
+                                        <input type="checkbox" class="check" name="model[]" value="'. $value['name'] .'">
                                     ';
                             
                             
@@ -78,53 +92,21 @@
                         #$table = $table . '<tr><td colspan="8"> <a href="#" onclick="this.parentNode.submit();"> Entrenar</a></td></tr>';
                         
                         $table = $table . '<tr><td colspan="8">                                                 
-                                                <input type="submit" name="anmelden" id="btncheck" class="btn btn-primary" data-toggle="modal" data-target="#mymodal" id="btncheck" value="Train selected models" disabled />
+                                                <input type="submit" name="anmelden" id="btncheck" class="btn btn-primary" id="btncheck" value="Create logical corpus" disabled />
+
                                            </td></tr>
                                         ';
 
                         $table = $table . '                                
                                 </tbody>
-                              </form>
-                            </table>';
 
-                        echo $table;
+                            </table></form></div>';
+
+                        echo $table;                        
 
 
     ?>
 
-            <!-- Modal -->
-            <div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog " role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Train models</h5>
-
-                </div>
-                    <form action="trainRawCorpora.php" method="post">
-                        <div class="form-group">                            
-                            <div class="modal-body" id="modal-data">
-                                <h3 class="modal-title" id="exampleModalLongTitle">Selected models:</h5>
-                                <hr>
-                                <ul class="list-group modal-list" id="model-list"></ul>
-                                <hr>
-                                <div class="form-group col-md-4">
-                                    <label for="inputState">Algorithm type:</label>
-                                    <select id="inputState" class="form-control">
-                                        <option selected>mallet</option>
-                                        <option>prodlda</option>
-                                        <option>ctm</option>
-                                        <option>bertopic</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Train</button>
-                            </div>
-                    </form>
-                </div>
-            </div>
-            </div>
                 
     </body>
 </html>
