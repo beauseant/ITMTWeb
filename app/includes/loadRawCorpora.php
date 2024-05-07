@@ -41,19 +41,19 @@
                         $table = '
                         <form action="../createLogicalCorpora.php" method="post">
                             <div class="container-fluid">
-                                    <h1 style="color:#f03c02;">Corpora data:</h1>
+                                    <h3 style="color:#f03c02;text-align:left !important;">Corpora data:</h3>
                                     <hr></hr> 
                                     <div class="row">
                                     <div class="col-md-auto"><label>Name</label></div>
-                                    <div class="col col-lg2"><input type="text" class="form-control" id="Name" placeholder="Name" value="Name" required></div>
+                                    <div class="col col-lg2"><input type="text" class="form-control" id="NameLbl" placeholder="Name" name="name" value="Name" required></div>
                                     <div class="col-md-auto"><label for>Description</label></div>
-                                        <div class="col col-lg6"><textarea class="form-control" id="description" rows="3" cols="50" required></textarea></div>
+                                        <div class="col col-lg6"><textarea class="form-control" name="description" rows="3" cols="50" required></textarea></div>
                                     <div class="col-md-auto"><label>Private</label></div>
                                     <div class="col-md-auto"><input type="checkbox" class="check" name="private"></div>
                                     </div>
                           </div>
                           <div class="container-fluid">
-                                <h1 style="color:#f03c02;">Fields to be included:</h1>
+                                <h3 style="color:#f03c02; text-align:left !important;">Corpus to be included:</h3>
                                 <hr></hr>                         
                                 <table class="table table-striped">                                   
                                        <thead>

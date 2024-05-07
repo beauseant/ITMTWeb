@@ -6,7 +6,7 @@ echo '
         <div class="container d-flex justify-content-between">
 
         <div class="logo">
-            <h1 class="text-light"><a href="index.php">ITMT: Interative Model Trainer</a></h1>
+            <h1 class="text-light"><a href="index.php">ITMT: Interactive Model Trainer</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html"><img src="assets/img/logo.jpg" alt="" class="img-fluid"></a>-->
         </div>

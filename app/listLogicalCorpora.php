@@ -59,7 +59,8 @@
     <section id="services" class="services">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4 col-md-6">
+          <div class="col-sm"></div>
+          <div class="col-sm">
             <div id="loadercont">
                 <div id="loader"></div>
             </div>
@@ -68,6 +69,7 @@
                 <p>Some text in my newly loaded page..</p>
             </div>
           </div>
+          <div class="col-sm"></div>
         </div>
       </div>
       <div>

@@ -21,6 +21,15 @@
                 }
             }
         }
+
+        public function getRawCorporaByName ( $name ) {
+            foreach ($this->rawCorpora as $key => $value) {
+                if ($value['name'] == $name) {
+                    return (['key' => $key, 'value' => $value]);
+                }
+            }
+            return false;
+        }
         
     }
 
