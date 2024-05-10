@@ -59,6 +59,25 @@
       <div class="container">
           <div class="row">
                 <div class="col-sm">
+                    <?php
+                        if (!isset ($_POST['modelName'])){
+                            echo '<div class="alert alert-danger" role="alert">
+                                      Model name not specified
+                                  </div>';
+                            exit();
+                        }
+                        if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/topicmodeler/.env")) {
+                                      echo '<div class="alert alert-success" role="alert">
+                                                OPEN API KEY file found!!!!                                        
+                                          </div>';
+                        }else {
+                          echo '<div class="alert alert-danger" role="alert">
+                                    OPEN API KEY file not found!!!!, Please create a file with de the key in the following path:' . '$_SERVER['DOCUMENT_ROOT'] . "/topicmodeler/.env
+                              </div>';
+                              exit();
+                        
+                        }                  
+                    ?>
                     Entrenando el modelo, por favor espere...
 		                <br><br>
 		                El fichero de configuración generado es el siguiente:

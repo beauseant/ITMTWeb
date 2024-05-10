@@ -21,7 +21,11 @@ echo '
                 </ul>
             </li>
             <li><a href="listmodels.php">Models</a></li>
-            <li><a href="listWordLists.php">Wordlists</a></li>
+            <li class="dropdown"><a href="#"><span>Wordlists</span> <i class="bi bi-chevron-down"></i></a>
+                <ul>
+                    <li><a href="listWordLists.php">Edit wordlists</a></li>
+                    <li><a href="createWordList.php">Create wordlists</a></li>
+                </ul>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->

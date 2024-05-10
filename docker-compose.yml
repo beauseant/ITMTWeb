@@ -14,7 +14,7 @@ services:
     build: .
     #definirla en el bash antes de hacer el docker-compose up:
     environment:
-      - OPENAI_API_KEY
+      - OPENAI_API_KEY=$OPENAI_API_KEY
     ports:
       - "4080:80"
     networks:

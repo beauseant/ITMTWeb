@@ -1,3 +1,4 @@
+<?php include 'includes/session.php';?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,6 +59,39 @@
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container">
+        <?php
+                /* si venimos desde crear wordlist createWordlist.php, entonces en el post tendremos los datos de la lista creada*/
+                require_once ('includes/fileOp.php');
+                if (isset ($_POST['wlname'])){
+                  /*limpiamos el nombre*/
+                  $name = filter_filename($_POST['wlname']);
+                  $data = array();
+                  $data['name'] = $name;
+                  $data['wordlist'] = json_decode ($_POST['words']);
+                  $data['description'] = $_POST['wldescription'];
+                  $data['valid_for'] = $_POST['type'];
+                  if (isset ($_POST['visibility'])) {
+                    $data['visibility'] = 'private';
+                  }else{
+                    $data['visibility'] = 'public';
+                  }
+                  $data['creation_date'] = gmdate('Y-m-d h:i:s \G\M\T');
+
+                  $file = $_SESSION['path_wordlists'] . '/' . $name . '.json';
+                  
+                  $error = saveArrayAsJsonFile( $data, $file );
+
+                  if (!$error) {
+                    echo '<div class="alert alert-success" role="alert">
+                            Wordlist "' .  $data['description']  . '" created successfully
+                          </div>';
+                  }else {
+                    echo '<div class="alert alert-danger" role="alert">
+                            Error creating wordlist ' . $file . '
+                          </div>';
+                  }
+                }
+        ?>
         <div class="row">
 
           <div class="col-sm">
