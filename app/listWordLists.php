@@ -60,8 +60,23 @@
     <section id="services" class="services">
       <div class="container">
         <?php
-                /* si venimos desde crear wordlist createWordlist.php, entonces en el post tendremos los datos de la lista creada*/
                 require_once ('includes/fileOp.php');
+
+                /*Si venimos de borrar lista entocnes debemos borrarla*/ 
+                if (isset ($_POST['btnBorrar'])){
+                    $error = deleteFile ($_POST['path']); 
+                    if ($error == 0) {
+                      echo '<div class="alert alert-success" role="alert">
+                              Wordlist' . $_POST['wlist']. 'deleted successfully
+                            </div>';
+                    }else {
+                      echo '<div class="alert alert-danger" role="alert">
+                              Error deleting wordlist ' . $_POST['wlist'] . ' 
+                            </div>';
+                    }
+                }
+
+                /* si venimos desde crear wordlist createWordlist.php, entonces en el post tendremos los datos de la lista creada*/
                 if (isset ($_POST['wlname'])){
                   /*limpiamos el nombre*/
                   $name = filter_filename($_POST['wlname']);

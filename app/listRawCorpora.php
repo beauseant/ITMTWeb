@@ -1,12 +1,15 @@
 <?php include 'includes/session.php';?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <?php include 'includes/head.php';?>
   <link href="assets/css/spinner.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/vendor/dataTables/dataTables.dataTables.css" />
   <script src="assets/vendor/jquery/jquery.min.js"></script>
   <script src="assets/vendor/popper/popper.min.js"></script>
+  <script src="assets/vendor/dataTables/dataTables.js"></script>
 
   <script>
 
@@ -40,6 +43,17 @@
 
   <?php include 'includes/topbar.php';?>
   <?php include 'includes/header.php';?>
+
+  <?php 
+
+      if (isset ($_POST['name'])) {
+        $_SESSION['rcname'] = $_POST['name'];
+        $_SESSION['rcdescription'] = $_POST['description'];
+        isset ($_POST['private']) ? $_SESSION['rcprivate'] = 1 : $_SESSION['rcprivate'] = 0;
+      }
+
+  
+  ?>
 
   <main id="main">
 

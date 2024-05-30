@@ -4,12 +4,17 @@
 
 <head>
   <?php include 'includes/head.php';?>
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+
 </head>
 
 <body>
 
   <?php include 'includes/topbar.php';?>
-  <?php include 'includes/header.php';?>
+  <?php include 'includes/header.php';
+  
+  #echo ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/manageModels.py --path_TMmodels '  . $_SESSION['path_TMmodels'] . ' --showTopics '. $_POST['model']);
+  ?>
 
 
   <main id="main">
@@ -33,6 +38,7 @@
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
       <div class="container">
+
 
         <div class="row">
           <div class="col-auto" data-aos="fade-up">
@@ -71,7 +77,16 @@
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <?php 
-                                    require_once ( $_SESSION['path_TMmodels'] . '/' . $_POST['model'] . '/TMmodel/pyLDAvis.html');
+                                    if (is_file($_SESSION['path_TMmodels'] . '/' . $_POST['model'] . '/TMmodel/pyLDAvis.html')) {
+                                      require_once ( $_SESSION['path_TMmodels'] . '/' . $_POST['model'] . '/TMmodel/pyLDAvis.html');
+                                    }else {
+                                        echo '
+                                            <div class="alert alert-danger" role="alert">
+                                                No pyLDAvis available
+                                            </div>
+                                        ';
+                                        exit;
+                                    }
                                 ?>
                             </div>
                         </div>
@@ -85,11 +100,29 @@
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                           <div class="accordion-body">
                               <?php
-                                    $data = shell_exec ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/manageModels.py --path_TMmodels '  . $_SESSION['path_TMmodels'] . ' --showTopics '. $_POST['model']);                      
-                                    $data = json_decode ( $data, true);                        
+                                    try {
+                                        $data = shell_exec ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/manageModels.py --path_TMmodels '  . $_SESSION['path_TMmodels'] . ' --showTopics '. $_POST['model']);                                                          
+                                        $data = json_decode ( $data, true);                     
+                                        
+                                    } catch (Exception $e) {
+                                        echo '
+                                            <div class="alert alert-danger" role="alert">
+                                                No topics information available
+                                            </div>
+                                        ';
+                                        exit;
+                                    }
 
-                                    $listkeys = array_keys(($data['0']));
-
+                                    if (is_array($data)) {
+                                        $listkeys = array_keys(reset ($data));
+                                    } else {
+                                        echo '
+                                            <div class="alert alert-danger" role="alert">
+                                                No topics information available
+                                            </div>
+                                        ';
+                                        exit;
+                                    }
                                     
                                     $table = '
                                     <table class="table table-striped">

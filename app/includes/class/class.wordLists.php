@@ -59,6 +59,22 @@
             }            
             return array();
         }
+
+        public function getWordListPath ( $name ) {
+            foreach ($this->wordLists as $key => $value) {
+                if ($value['name'] == $name) {
+                    return $value['path'];
+                }
+            }
+            foreach ($this->equivalences as $key => $value) {
+                if ($value['name'] == $name) {
+                    return $value['path'];  
+                }
+            }            
+            return array();
+
+        }
+
         
     }
 

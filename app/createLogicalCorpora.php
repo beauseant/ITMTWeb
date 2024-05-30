@@ -40,6 +40,16 @@
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container">                    
+        <?php
+                    if (!isset ($_POST['model'])) {
+                      echo '
+                            <div class="alert alert-danger" role="alert">
+                                  No model selected
+                            </div>
+                      ';
+                          exit;
+                    }        
+        ?>
         <div class="row">
                 <div class="col-sm"></div>
               <div class="col-md-auto">

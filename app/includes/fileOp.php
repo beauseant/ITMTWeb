@@ -25,4 +25,19 @@
 
     }
 
+    function openJsonFile ($filename) {
+        $data = file_get_contents($filename);
+        return json_decode($data, true);
+    }
+
+
+    function deleteFile($filename){
+            if (!unlink($filename)) { 
+                return -1;
+            }else { 
+                return 0;    
+            } 
+
+    }
+
 ?>

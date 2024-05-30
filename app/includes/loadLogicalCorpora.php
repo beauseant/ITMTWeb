@@ -4,13 +4,18 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="../assets/css/spinner.css" rel="stylesheet">
-        <script src="../assets/vendor/jquery/jquery.min.js"></script>
+
         <script>
             $(document).ready(function(){
 
                 $('#loader2').hide();
                 $('#loadercont2').hide();
-                $('#shownumber').hide();                
+                $('#shownumber').hide();      
+
+                $('#logicalCorpora').DataTable( {
+                    ordering: true,
+                    pageLength: 10
+                } );                
             });
 
             /*$('.check').change(function() {
@@ -36,6 +41,14 @@
         </script>
     </head>
     <body>    
+
+            <div class="container-fluid">
+                    <h3 style="color:#f03c02;text-align:left !important;">Train corpora: <button type="button" class="btn btn-primary btn-secondary" data-bs-toggle="modal" data-bs-target="#createmodal2">
+                        Create new corpus
+                    </button> </h3>
+                    <hr></hr> 
+            </div>
+    
     <?php
 
                         require_once ('class/class.TrDtsets.php');
@@ -44,8 +57,8 @@
                         $listkeys = array_keys(reset ($data));
                         
                         $table = '
-                                <table class="table table-striped">
-                                   <form action="trainLogicalCorpora.php" method="post"
+
+                                <table id="logicalCorpora" class="table table-fit table-striped">       
                                        <thead>
                                           <tr>                                    
                                 ';
@@ -82,6 +95,7 @@
                                 <input type="radio" name="dtset"  class="check nameset" id="' . $value['name'] . '"  value="'. $value['name'] .'">
                                 ';                                
                             }
+
                             $count++;
                             
                             $table = $table . '<td>'. $form. '</td>';
@@ -90,22 +104,64 @@
                         $table = $table . '</tr>';
                         #$table = $table . '<tr><td colspan="8"> <a href="#" onclick="this.parentNode.submit();"> Entrenar</a></td></tr>';
                         
-                        $table = $table . '<tr><td colspan="8"> 
+                        /*$table = $table . '<tr><td colspan="8"> 
                                                 <input type="submit" name="anmelden" id="btncheck" class="btn btn-primary"
                                                      data-toggle="modal" data-target="#mymodal" id="btncheck" value="Train selected models"  
                                                 />
                                            </td></tr>
                                         ';
-
+                        */
                         $table = $table . '                                
                                 </tbody>
-                              </form>
-                            </table>';
+                            </table>
+                                                          
+                            <input type="submit" name="anmelden" id="btncheck" class="btn btn-primary"
+                            data-toggle="modal" data-target="#mymodal" id="btncheck" value="Train selected models"  
+                       /><hr></hr> ';
+                            ;
 
                         echo $table;
 
 
     ?>
+
+            <!-- Modal -->
+            <div class="modal fade" id="createmodal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create corpora</h5>
+                </div>
+                <form action="../listRawCorpora.php" method="post">
+                <div class="modal-body">
+                            <h3 style="color:#f03c02;text-align:left !important;">Corpora data:</h3>
+                            <hr></hr> 
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col"><label>Name:</label></div>
+                                    <div class="col col-lg6"><input type="text" class="form-control" id="NameLbl" placeholder="Name" name="name" value="Name" required></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"><label for>Description:</label></div>
+                                    <div class="col col-lg6"><textarea class="form-control" name="description" rows="3" cols="50" required></textarea></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"><label>Private:</label></div>
+                                    <div class="col col-lg6"><input type="checkbox" class="check" name="private"></div>
+                                </div>
+                            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </div>
+                </form>
+                </div>
+            </div>
+            </div>
+
+
 
             <!-- Modal -->
             <div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -236,7 +292,9 @@
                 </div>
             </div>
             </div>
-       
+
+
+
 
                 
     </body>

@@ -22,6 +22,7 @@
 
    
     <?php
+
                         function printTable ($data) {
                             $listkeys = array_keys(reset ($data));
                         

@@ -2,10 +2,12 @@
 <html lang="en">
 
 <head>
-  <?php include 'includes/head.php';?>
+<?php include 'includes/head.php';?>
   <link href="assets/css/spinner.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/vendor/dataTables/dataTables.dataTables.css" />
   <script src="assets/vendor/jquery/jquery.min.js"></script>
-
+  <script src="assets/vendor/popper/popper.min.js"></script>
+  <script src="assets/vendor/dataTables/dataTables.js"></script>
   <script>
 
           $(document).ready(function(){

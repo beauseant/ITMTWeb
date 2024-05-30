@@ -10,8 +10,19 @@
 
                 $('#loader2').hide();
                 $('#loadercont2').hide();
-                $('#shownumber').hide();                
+                $('#shownumber').hide();    
+
+                /*let table = new DataTable('#rawCorpora') {
+                    ordering: false
+                };*/
+
+                $('#rawCorpora').DataTable( {
+                    ordering: true,
+                    pageLength: 10
+                } );
+
             });
+
 
             $('.check').change(function() {
                     $('#btncheck').prop("disabled", !this.checked);
@@ -37,31 +48,62 @@
                         $rc = new rawCorpora ();
                         $data = $rc ->getrawCorpora();
                         $listkeys = array_keys(reset ($data));
+                        
 
-                        $table = '
-                        <form action="../createLogicalCorpora.php" method="post">
-                            <div class="container-fluid">
-                                    <h3 style="color:#f03c02;text-align:left !important;">Corpora data:</h3>
-                                    <hr></hr> 
-                                    <div class="row">
-                                    <div class="col-md-auto"><label>Name</label></div>
-                                    <div class="col col-lg2"><input type="text" class="form-control" id="NameLbl" placeholder="Name" name="name" value="Name" required></div>
-                                    <div class="col-md-auto"><label for>Description</label></div>
-                                        <div class="col col-lg6"><textarea class="form-control" name="description" rows="3" cols="50" required></textarea></div>
-                                    <div class="col-md-auto"><label>Private</label></div>
-                                    <div class="col-md-auto"><input type="checkbox" class="check" name="private"></div>
-                                    </div>
-                          </div>
+
+                        if (isset ($_SESSION['rcname'])) {
+                            echo '
+                                <div class="alert alert-success" role="alert">
+                                    Let\'s create a corpus with the name "'. $_SESSION['rcname'] .  '". Select the corpus to be included.
+                            </div>
+                            ';
+                        }
+
+                        if (isset ($_SESSION['rcname'])) {
+                                $table = '
+                                <form action="../createLogicalCorpora.php" method="post">
+                                    <div style="display:none;" class="container-fluid">
+                                            <h3 style="color:#f03c02;text-align:left !important;">Corpora data:</h3>
+                                            <hr></hr> 
+                                            <div class="row">
+                                            <div class="col-md-auto"><label>Name</label></div>
+                                            <div class="col col-lg2"><input type="text" class="form-control" id="NameLbl" placeholder="Name" name="name" value="' . $_SESSION['rcname'] .  ' " required></div>
+                                            <div class="col-md-auto"><label for>Description</label></div>
+                                                <div class="col col-lg6"><textarea class="form-control" name="description" rows="3" cols="50" required>'. $_SESSION['rcdescription']. '</textarea></div>
+                                            <div class="col-md-auto"><label>Private</label></div>
+                                ';
+
+                                if (  ($_SESSION['rcprivate'])==1 ) {
+                                    $table = $table . '
+                                            <div class="col-md-auto"><input type="checkbox"  name="private" checked></div>
+                                            </div>
+                                        </div>';
+                                }else {
+                                    $table = $table . '
+                                            <div class="col-md-auto"><input type="checkbox" name="private"></div>
+                                            </div>
+                                        </div>';
+                                }
+
+                                /*unset ($_SESSION['rcprivate']);
+                                unset ($_SESSION['rcname']);
+                                unset ($_SESSION['rcdescription']);*/
+                        }else {
+                            $table = '';
+                        }
+
+                        $table = $table . '
                           <div class="container-fluid">
                                 <h3 style="color:#f03c02; text-align:left !important;">Corpus to be included:</h3>
                                 <hr></hr>                         
-                                <table class="table table-striped">                                   
+                                <table id="rawCorpora" class="table  table-fit table-striped">                                   
                                        <thead>
                                           <tr>                                    
                         ';
                         foreach ($listkeys as $value) {
                             $table = $table . '<th scope="col">' . $value . '</th>';
                         }
+                        
                         $table = $table . '<th scope="col">' .'' . '</th>';
 
 
@@ -79,11 +121,14 @@
                                     $table = $table . '<td>' . $value[$key] . '</td>';
                                 }
                             } 
-                            
-                            $form = '
-                                        <input type="checkbox" class="check" name="model[]" value="'. $value['name'] .'">
-                                    ';
-                            
+                            if (isset ($_SESSION['rcname'])) {
+                                $form = '
+                                            
+                                            <input type="checkbox" class="check" name="model[]" value="'. $value['name'] .'">
+                                        ';
+                            }else {
+                                $form = '';
+                            }
                             
                             $table = $table . '<td>'. $form. '</td>';
                             $table = $table . '</tr>';
@@ -91,18 +136,26 @@
                         $table = $table . '</tr>';
                         #$table = $table . '<tr><td colspan="8"> <a href="#" onclick="this.parentNode.submit();"> Entrenar</a></td></tr>';
                         
-                        $table = $table . '<tr><td colspan="8">                                                 
+                       /* $table = $table . '<tr><td colspan="8">                                                 
                                                 <input type="submit" name="anmelden" id="btncheck" class="btn btn-primary" id="btncheck" value="Create logical corpus" disabled />
 
                                            </td></tr>
                                         ';
-
+                        */
                         $table = $table . '                                
                                 </tbody>
 
-                            </table></form></div>';
+                            </table>';
+                        if (isset ($_SESSION['rcname'])) {
+                            $table = $table . '
+                                <input type="submit" name="anmelden" id="btncheck" class="btn btn-primary" id="btncheck" value="Create logical corpus" disabled />
+                                </form></div>';
+                        }else{
+                            $table = $table . '</div>';
+                        }
 
                         echo $table;                        
+                        unset ($_SESSION['rcname']);
 
 
     ?>
