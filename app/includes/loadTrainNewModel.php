@@ -44,19 +44,11 @@
 
             <div class="container-fluid">
 
-            <div class="row">
-                    <div class="col-sm">
-                        <h3 style="color:#f03c02;text-align:left !important;">Train corpora:</h3>
-                    </div>
-                    <div class="col-sm">
-                    </div>
-                    <div class="col-sm">
-                    <button type="button" class="btn btn-primary btn-secondary" data-bs-toggle="modal" data-bs-target="#createmodal2">
-                        Create new corpus
-                    </button>
-                    </div>
-                </div>        
+            <div class="alert alert-success" role="info">
+                Select the corpus you want to use for training the model.
             </div>
+            <h3 style="color:#f03c02;text-align:left !important;">Corpus to be used for training:</h3>
+
             <hr></hr> 
 
             </div>
@@ -79,7 +71,7 @@
                                 $table = $table . '<th scope="col">' . $value . '</th>';
                             }
                         }
-                        #$table = $table . '<th scope="col">' .'train' . '</th>';
+                        $table = $table . '<th scope="col">' .'train' . '</th>';
 
 
                         $table = $table . '
@@ -102,15 +94,16 @@
                                 $form = '                                
                                 <input type="radio" name="dtset" checked class="check nameset" id="' . $value['name'] . '"  value="'. $value['name'] .'">
                                 ';
+                                $count=1;
                             }else{
                                 $form = '                                
-                                <input type="radio" name="dtset"  class="check nameset" id="' . $value['name'] . '"  value="'. $value['name'] .'">
+                                <input type="radio" name="dtset"  class="nameset" id="' . $value['name'] . '"  value="'. $value['name'] .'">
                                 ';                                
                             }
 
                             $count++;
                             
-                            #$table = $table . '<td>'. $form. '</td>';
+                            $table = $table . '<td>'. $form. '</td>';
                             $table = $table . '</tr>';
                         }
                         $table = $table . '</tr>';
@@ -125,12 +118,10 @@
                         */
                         $table = $table . '                                
                                 </tbody>
-                            </table></hr></hr> ';
-                                                          
-                        /*
+                            </table></hr></hr>                 
                             <input type="submit" name="anmelden" id="btncheck" class="btn btn-primary"
-                            data-toggle="modal" data-target="#mymodal" id="btncheck" value="Train selected models"  
-                        */
+                            data-toggle="modal" data-target="#mymodal" id="btncheck" value="Select as training corpus"  
+                            ';                                                         
 
 
                         echo $table;

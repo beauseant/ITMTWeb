@@ -2,17 +2,19 @@
 <html lang="en">
 
 <head>
-<?php include 'includes/head.php';?>
+  <?php include 'includes/head.php';?>
   <link href="assets/css/spinner.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/vendor/dataTables/dataTables.dataTables.css" />
   <script src="assets/vendor/jquery/jquery.min.js"></script>
-  <script src="assets/vendor/popper/popper.min.js"></script>
   <script src="assets/vendor/dataTables/dataTables.js"></script>
+
+
+
   <script>
 
           $(document).ready(function(){
               $.ajax({
-                  url: 'includes/loadListmodels.php',
+                  url: 'includes/loadTrainNewModel.php',
                   type: 'GET',
                   dataType: 'html',
                   success: function(data) {
@@ -28,8 +30,6 @@
                   }
               });
           });
-
-
 
 
 </script>
@@ -52,7 +52,7 @@
           <h2>Services</h2>
           <ol>
             <li><a href="index.php">Home</a></li>
-            <li>List models</li>
+            <li>Logical corpora</li>
           </ol>
         </div>
 
@@ -63,7 +63,7 @@
     <section id="services" class="services">
       <div class="container">
         <div class="row">
-        <div class="col-sm"></div>
+          <div class="col-sm"></div>
           <div class="col-sm">
             <div id="loadercont">
                 <div id="loader"></div>

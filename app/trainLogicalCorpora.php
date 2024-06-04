@@ -126,7 +126,9 @@
                       </div><!-- End #scroll -->
                   </div>
                 <div class="col-sm">
-                      Entrenamiento finalizado...
+                      <div class="alert alert-success" role="alert">
+                            Model training completed, check the output to see the result
+                      </div>
                 </div>                
             </div>
         </div>            

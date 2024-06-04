@@ -130,7 +130,7 @@
                     $error = True;
                     echo '    <div class="alert alert-danger" role="alert">
                                   You must select exactly one id field for each corpus.
-                                  <a href="listRawCorpora.php" class="alert-link">Go back</a> and try again.
+                                  <a href="listLogicalCorpora.php" class="alert-link">Go back</a> and try again.
                               </div>
                     ';
                 }
@@ -138,12 +138,14 @@
                   $error = True;
                   echo '    <div class="alert alert-danger" role="alert">
                                 You must select at least one lemmas field for each corpus selected.
-                                <a href="listRawCorpora.php" class="alert-link">Go back</a> and try again.
+                                <a href="listLogicalCorpora.php" class="alert-link">Go back</a> and try again.
                             </div>';
                 }
 
+                print $error;
                 $error2 = False;
                 if (!$error){
+                    print ('potato ');
                     require_once ('includes/class/class.rawCorpora.php');
                     $rc = new rawCorpora ();
 
@@ -190,7 +192,6 @@
                           </div>';
                       $error2 = True;
                     }
-                  }
                   if (!$error2){        
 
                         echo '    <div class="alert alert-info" role="alert">
@@ -217,7 +218,7 @@
 
                   } /* no error*/
 
-
+                } /* no error*/
             // Code below...
             ?>
             </div><!--Col -->

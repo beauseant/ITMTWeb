@@ -26,26 +26,42 @@
     <body>    
 
     <div class="container-fluid">
-                    <h3 style="color:#f03c02;text-align:left !important;">View models: <button type="button" class="btn btn-primary btn-secondary" data-bs-toggle="modal" data-bs-target="#createmodal2">
-                        Create new model
-                    </button> </h3>
-                    <hr></hr> 
+                <div class="row">
+                    <div class="col-sm">
+                        <h3 style="color:#f03c02;text-align:left !important;">View models:</h3>
+                    </div>
+                    <div class="col-sm">
+                    </div>
+                    <div class="col-sm">
+                    <a href="trainNewModel.php" class="btn  btn-secondary" role="button">Train new model</a>
+
+                    </div>
+                </div>        
             </div>
+            <hr></hr> 
             
-            
-    <?php
+            <?php
 
 
 
                         $data = shell_exec ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/manageModels.py --listTMmodels --path_TMmodels '. $_SESSION['path_TMmodels'] . ' 2>&1');
                         $data = json_decode ( $data, true);                        
 
-
                         $listkeys = array_keys(reset ($data));
+
+
+                        /*borramos dos columnas que no aportan información al usuario*/
+                        if (($key = array_search('htm-version', $listkeys)) !== false) {
+                            unset($listkeys[$key]);
+                        }
+                        if (($key = array_search('hierarchy-level', $listkeys)) !== false) {
+                            unset($listkeys[$key]);
+                        }
+
 
                         
                         $table = '
-                                <table id="listModels" class="table table-striped">                                    
+                                <table id="listModels" class="table table-fit table-striped ">                                    
                                         <thead>
                                             <tr>                                    
                                 ';
@@ -56,7 +72,6 @@
 
 
                         $table = $table . '<th>View</th>
-                                </tr>
                             </thead>
                             <tbody>';
 
@@ -70,7 +85,7 @@
                                                      . $lastNCharacters . '</u></p></td>';
                                 } else {
                                     $table = $table . '<td>' . $value[$key] . '</td>';
-                                }                                
+                                }
                             } 
                             $form = '<form action="viewModel.php" method="post">
                                         <input type="hidden" name="model" value="'. $value['name']  .'">
@@ -79,16 +94,16 @@
                                         <input type="hidden" name="trdtset" value="'. $value['TrDtSet']  .'">
                                         <button type="submit" class="btn btn-link" name="submit" value="View" >View</button>
                                     </form>
-                                    ';
-                            
-                            
+                                    ';                
                             $table = $table . '<td>'. $form. '</td>';
+                            #$table = $table . '<td><input type="radio" name="dtset" checked class="check nameset" id="' . $value['name'] . '"  value="'. $value['name'] .'"></td>';
                             $table = $table . '</tr>';
                         }
                         
                         $table = $table . ' 
                                     </tbody>
-                            </table>';
+                            </table>
+                            <hr></hr> ';                            
 
                         echo $table;
 
@@ -96,41 +111,6 @@
     ?>
 
 
-          <!-- Modal -->
-          <div class="modal fade" id="createmodal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create corpora</h5>
-                </div>
-                <form action="../listRawCorpora.php" method="post">
-                <div class="modal-body">
-                            <h3 style="color:#f03c02;text-align:left !important;">Corpora data:</h3>
-                            <hr></hr> 
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col"><label>Name:</label></div>
-                                    <div class="col col-lg6"><input type="text" class="form-control" id="NameLbl" placeholder="Name" name="name" value="Name" required></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><label for>Description:</label></div>
-                                    <div class="col col-lg6"><textarea class="form-control" name="description" rows="3" cols="50" required></textarea></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><label>Private:</label></div>
-                                    <div class="col col-lg6"><input type="checkbox" class="check" name="private"></div>
-                                </div>
-                            </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Next</button>
-                </div>
-                </form>
-                </div>
-            </div>
-            </div>
 
 
 
