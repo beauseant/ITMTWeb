@@ -42,12 +42,25 @@
 
     <?php
 
+                        try {
+                            require_once ('class/class.rawCorpora.php');
+                            $rc = new rawCorpora ();
+                            $data = $rc ->getrawCorpora();
+                            $listkeys = array_keys(reset ($data));
+
+                        } catch (TypeError $ex) {
+                            echo '
+                                    <div class="alert alert-danger" role="alert">
+                                            Error loading Corpora. Please contact the administrator.<br>
+                                            '  . $ex -> getMessage() . '
+                                    </div>
+                            ';
+                            $data = array();
+                            $listkeys = array();
+                            exit();
+                        }
 
 
-                        require_once ('class/class.rawCorpora.php');
-                        $rc = new rawCorpora ();
-                        $data = $rc ->getrawCorpora();
-                        $listkeys = array_keys(reset ($data));
                         
 
 

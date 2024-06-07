@@ -1,132 +1,106 @@
-<?php include 'includes/session.php';?>
+<?php
+                //check POST data
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    session_start();
+                    require_once ('includes/class/class.Database.php');        
+                    $db = new Database('/auth/auth.db');
+                    if (! $db-> validUser ($_POST['user'], $_POST['passwd'])) {
+                        echo '
+                            <div class="alert alert-danger" role="alert">
+                                Invalid user or password
+                            </div>
+                        ';
+                    }else{
+                        $_SESSION['user'] = $_POST['user'];
+                        header('Location: itmt.php');
+                    }
+                }
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include 'includes/head.php';?>
+<?php include 'includes/head.php';?>
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
 </head>
+<body>       
 
-<body>
+    
+        <section class="h-100 gradient-form" style="background-color: #eee;">
+        <div class="container py-5 h-100">
 
-  <?php include 'includes/topbar.php';?>
-  <?php include 'includes/header.php';?>
 
+        <?php
 
-  <!-- ======= Hero Section ======= -->
-  <section id="hero">
-    <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            require_once ('includes/class/class.Database.php');        
+            $db = new Database('/auth/auth.db');
+            if (count ($db -> fetchQuery ('SELECT * FROM logins'))==0){
+                echo '
+                        <div class="alert alert-danger" role="alert">
+                                Database not found or empty. Please contact the administrator.
+                        </div>
+                ';
+                exit(); 
+            }
+        ?>
+            <div class="row d-flex justify-content-center align-items-center h-100">
 
-      <div class="carousel-inner" role="listbox">
+            
+            <div class="col-xl-10">
+                <div class="card rounded-3 text-black">
+                <div class="row g-0">
+                    <div class="col-lg-6">
+                    <div class="card-body p-md-5 mx-md-4">
 
-        <!-- Slide 1 -->
-        <div class="carousel-item active" style="background-image: url(assets/img/slide/slide-1.jpg);">
-          <div class="carousel-container">
-            <div class="carousel-content animate__animated animate__fadeInUp">
-              <h2>Corpora</h2>
-              <p>Use this space to select a corpus from the Data Lake to be used with the training of a model. You can also create a new corpus by merging other available ones or select a subcorpus based on a category.</p>
-              <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
+                        <div class="text-center">
+                        <img src="./assets/img/logoitmt.png"
+                            style="width: 412px; padding-bottom:50px;" alt="logo">
+                        <!--  <h4 class="mt-1 mb-5 pb-1">Welcome to ITMT:</h4> -->
+                        </div>
+
+                        <form action="index.php" method="post">
+                        <p>Please login to your account</p>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="form2Example11" name="user"  class="form-control"
+                            placeholder="" required/>
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" id="form2Example22" name="passwd" class="form-control" required/>
+                            <label class="form-label" for="form2Example22">Password</label>
+                        </div>
+
+                        <div class="text-center pt-1 mb-5 pb-1">
+                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Login</button>
+                           <!-- <a class="text-muted" href="#!">Forgot password?</a> -->
+                        </div>
+
+                        <!--
+                        
+                        <div class="d-flex align-items-center justify-content-center 	pb-4">
+                            <p class="mb-0 me-2">Don't have an account?</p>
+                            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Create new</button>
+                        </div>
+                                          -->
+
+                        </form>
+
+                    </div>
+                    </div>
+                    <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                    <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                        <h4 class="mb-4">Interactive Model trainer:</h4>
+                        <p class="small mb-0">Interactive Topic Model Trainer (ITMT) developed within the EU-funded project IntelComp. ITMT is a user-in-the-loop topic modeling tool presented with a graphical user interface that allows the training and curation of different state-of-the-art topic extraction libraries, including some recent neural-based methods, oriented toward the usage by domain experts. .</p>
+                    </div>
+                    </div>
+                </div>
+                </div>
             </div>
-          </div>
+            </div>
         </div>
+        </section>
 
-        <!-- Slide 2 -->
-        <div class="carousel-item" style="background-image: url(assets/img/slide/slide-2.jpg);">
-          <div class="carousel-container">
-            <div class="carousel-content animate__animated animate__fadeInUp">
-              <h2>Models</h2>
-              <p>Use this space to select a model to work with, create a new model, curate a model or manage the available models.</p>
-              <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="carousel-item" style="background-image: url(assets/img/slide/slide-3.jpg);">
-          <div class="carousel-container">
-            <div class="carousel-content animate__animated animate__fadeInUp">
-              <h2>Wordlists</h2>
-              <p>Ut Use this space to manage your lists of stopwords and equivalences or create new ones.</p>
-              <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bx bx-left-arrow" aria-hidden="true"></span>
-      </a>
-
-      <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
-        <span class="carousel-control-next-icon bx bx-right-arrow" aria-hidden="true"></span>
-      </a>
-
-      <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
-
-    </div>
-  </section><!-- End Hero -->
-
-  <main id="main">
-
-    <!-- ======= Cta Section ======= -->
-    <section id="cta" class="cta">
-      <div class="container">
-
-        <div class="row">
-          <div class="col-lg-9 text-center text-lg-left">
-            <h3>Intelcomp</h3>
-            <p> This work has received funding from the European Union’s Horizon 2020 research and innovation program under grant agreement No 101004870, and from Grant TED2021-132366B-I00 funded by MCIN/AEI/10.13039/501100011033 and by the “European Union NextGenerationEU/PRTR”.</p>
-          </div>
-          <div class="col-lg-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="#">More info</a>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- End Cta Section -->
-
-    <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
-      <div class="container">
-
-        <div class="row">
-          <a href="listmodels.php">
-            <div class="col-lg-4 col-md-6">
-              <div class="icon-box" data-aos="fade-up">
-                <div class="icon"><i class="bi bi-briefcase"></i></div>
-                <h4 class="title"><a href="">Corpora</a></h4>
-                <p class="description">Create a new corpus or combine them</p>
-              </div>
-            </div>
-          </a>
-          <div class="col-lg-4 col-md-6">
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-              <div class="icon"><i class="bi bi-card-checklist"></i></div>
-              <h4 class="title"><a href="">Models</a></h4>
-              <p class="description">Create and train models</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-              <div class="icon"><i class="bi bi-bar-chart"></i></div>
-              <h4 class="title"><a href="">Wordlists</a></h4>
-              <p class="description">Manage your list of stopwords and equivalences</p>
-            </div>
-          </div>
-
-
-      </div>
-    </section><!-- End Services Section -->
-
-    <!-- Uncoment for portfolio -->
-    <?php //include ('includes/portfolio.php'); ?>
-
-
-
-  </main><!-- End #main -->
-
-
-  <?php include 'includes/footer.php';?>
-
+        
 </body>
-
 </html>
+

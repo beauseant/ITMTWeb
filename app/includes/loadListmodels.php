@@ -24,7 +24,27 @@
         </script>
     </head>
     <body>    
+    <?php
+                    try {
+                        $data = shell_exec ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/manageModels.py --listTMmodels --path_TMmodels '. $_SESSION['path_TMmodels'] . ' 2>&1');
+                        //guardamos la salida original por si da error poder imprimirla.
+                        $dataorg = $data;
+                        $data = json_decode ( $data, true);                        
+                        $listkeys = array_keys(reset ($data));
 
+                    } catch (TypeError $ex) {
+                        echo '
+                                <div class="alert alert-danger" role="alert">
+                                        Error loading models. Please contact the administrator.<br>
+                                        '  . $ex -> getMessage() . $dataorg .'
+                                </div>
+                        ';
+                        $data = array();
+                        $listkeys = array();
+                        exit();
+                    }
+
+    ?>
     <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm">
@@ -44,9 +64,8 @@
 
 
 
-                        $data = shell_exec ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/manageModels.py --listTMmodels --path_TMmodels '. $_SESSION['path_TMmodels'] . ' 2>&1');
-                        $data = json_decode ( $data, true);                        
 
+<<<<<<< HEAD
                         $listkeys = array_keys(reset ($data));
 
 
@@ -58,6 +77,8 @@
                             unset($listkeys[$key]);
                         }
 
+=======
+>>>>>>> login
 
                         
                         $table = '
