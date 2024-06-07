@@ -27,13 +27,8 @@
                   }
               });
           });
-
-
 </script>
-
-
-
-</head>
+  </head>
 
 <body>
 

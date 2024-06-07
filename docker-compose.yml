@@ -11,8 +11,14 @@ networks:
 services:
   web:
     #image: phppython
-    build: .
-    #definirla en el bash antes de hacer el docker-compose up:
+    build: 
+        context: .
+        dockerfile: Dockerfile
+        args:
+            - UID=${UID}
+            - GID=${GID}
+
+    container_name: ITMTWeb
     environment:
       - OPENAI_API_KEY=$OPENAI_API_KEY
     ports:
@@ -21,7 +27,8 @@ services:
       - web-net       
     volumes:
         - ./app:/var/www/html  
-        - /export/usuarios_ml4ds/lbartolome/:/export/usuarios_ml4ds/lbartolome/
+        - ./auth:/auth
+        - /export/usuarios_ml4ds/lbartolome/:/data/
 
 volumes:
   app:

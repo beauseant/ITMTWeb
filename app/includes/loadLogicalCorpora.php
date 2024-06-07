@@ -42,6 +42,28 @@
     </head>
     <body>    
 
+            <?php
+
+                    try {
+                        require_once ('class/class.TrDtsets.php');
+                        $tl = new trdList();
+                        $data = $tl ->getTrDtsets();
+                        $listkeys = array_keys(reset ($data));
+
+                    } catch (TypeError $ex) {
+                        echo '
+                                <div class="alert alert-danger" role="alert">
+                                        Error loading Corpora. Please contact the administrator.<br>
+                                        '  . $ex -> getMessage() . '
+                                </div>
+                        ';
+                        $data = array();
+                        $listkeys = array();
+                        exit();
+                    }
+            ?>
+
+
             <div class="container-fluid">
                     <h3 style="color:#f03c02;text-align:left !important;">Train corpora: <button type="button" class="btn btn-primary btn-secondary" data-bs-toggle="modal" data-bs-target="#createmodal2">
                         Create new corpus
@@ -50,11 +72,9 @@
             </div>
     
     <?php
+    
 
-                        require_once ('class/class.TrDtsets.php');
-                        $tl = new trdList();
-                        $data = $tl ->getTrDtsets();
-                        $listkeys = array_keys(reset ($data));
+
                         
                         $table = '
 
