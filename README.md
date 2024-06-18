@@ -80,3 +80,14 @@ docker exec  -it ITMTWeb  bash
 #O, si se quiere entrar como root
 docker exec  -u root -it ITMTWeb  bash
 ```
+
+Si al arrancar el docker-compose da un eror del tipo: docker.errors.DockerException: Error while fetching server API version: Not supported URL scheme http+docker
+
+```bash
+ pip3 install requests==2.31.0
+pip install 'urllib3<2'
+```
+
+
+
+
