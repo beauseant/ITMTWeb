@@ -28,7 +28,7 @@ services:
     volumes:
         - ./app:/var/www/html  
         - ./auth:/auth
-        - /export/usuarios_ml4ds/lbartolome/:/data/
+        - /export/data_ml4ds/ITMTWeb/:/data/
 
 volumes:
   app:

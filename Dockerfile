@@ -7,7 +7,8 @@ RUN apt install -y python3-pip
 RUN pip3 install -r requirements.txt
 ARG UID
 ARG GID
-RUN groupmod -g ${GID} www-data 
+#RUN groupdel -f ${GID} 
+#RUN groupmod -g ${GID} www-data 
 RUN usermod -u ${UID}  www-data
 RUN pip3 install bertopic
 RUN apt-get update

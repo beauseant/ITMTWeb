@@ -65,7 +65,6 @@
 
 
 
-<<<<<<< HEAD
                         $listkeys = array_keys(reset ($data));
 
 
@@ -77,8 +76,6 @@
                             unset($listkeys[$key]);
                         }
 
-=======
->>>>>>> login
 
                         
                         $table = '

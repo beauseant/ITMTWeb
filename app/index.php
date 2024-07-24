@@ -90,7 +90,7 @@
                     <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
                     <div class="text-white px-3 py-4 p-md-5 mx-md-4">
                         <h4 class="mb-4">Interactive Model trainer:</h4>
-                        <p class="small mb-0">Interactive Topic Model Trainer (ITMT) developed within the EU-funded project IntelComp. ITMT is a user-in-the-loop topic modeling tool presented with a graphical user interface that allows the training and curation of different state-of-the-art topic extraction libraries, including some recent neural-based methods, oriented toward the usage by domain experts. .</p>
+                        <p class="small mb-0">Interactive Topic Model Trainer (TARS) developed within the EU-funded project IntelComp. TARS is a user-in-the-loop topic modeling tool presented with a graphical user interface that allows the training and curation of different state-of-the-art topic extraction libraries, including some recent neural-based methods, oriented toward the usage by domain experts.</p>
                     </div>
                     </div>
                 </div>

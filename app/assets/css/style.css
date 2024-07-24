@@ -2388,3 +2388,10 @@ table.table-fit tfoot td {
   }
 
 
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
