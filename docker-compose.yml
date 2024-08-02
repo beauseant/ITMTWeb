@@ -10,17 +10,23 @@ networks:
 
 services:
   web:
+    user: "${MYUID}"
     #image: phppython
     build: 
         context: .
         dockerfile: Dockerfile
         args:
-            - UID=${UID}
+            - MYUID=${MYUID}
             - GID=${GID}
 
     container_name: ITMTWeb
     environment:
       - OPENAI_API_KEY=$OPENAI_API_KEY
+      - NUMBA_CACHE_DIR=/tmp
+      - TRANSFORMERS_CACHE=/tmp
+      - MPLCONFIGDIR=/tmp
+
+
     ports:
       - "4080:80"
     networks:
@@ -29,6 +35,7 @@ services:
         - ./app:/var/www/html  
         - ./auth:/auth
         - /export/data_ml4ds/ITMTWeb/:/data/
+        - /export/usuarios_ml4ds/lbartolome/Repos/:/export/usuarios_ml4ds/lbartolome/Repos/:rw
 
 volumes:
   app:

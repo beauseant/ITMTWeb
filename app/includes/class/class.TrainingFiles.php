@@ -28,6 +28,7 @@
                 $this -> data ['Preproc']['stopwords']= $this -> params['wordlist'];
                 $this -> data ['Preproc']['equivalences'] = $this -> params['eqlist'];
 		$this -> data ['description'] = $this -> params['description'];
+		$this -> data ['name'] = $this -> params ['modelName'];
 	
 	}
 

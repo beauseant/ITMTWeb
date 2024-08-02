@@ -14,7 +14,12 @@
 
                 $('#logicalCorpora').DataTable( {
                     ordering: true,
-                    pageLength: 10
+                    pageLength: 10,
+                    responsive: true,
+                    columnDefs: [
+                            { responsivePriority: 1, targets: -1 },
+                            { responsivePriority: 2, targets: 0 }
+                    ]
                 } );                
             });
 
@@ -90,7 +95,7 @@
                         
                         $table = '
 
-                                <table id="logicalCorpora" class="table table-fit table-striped">       
+                                <table id="logicalCorpora" class="table-striped table table-bordered table-hover nowrap" style="width:100%">                             
                                        <thead>
                                           <tr>                                    
                                 ';

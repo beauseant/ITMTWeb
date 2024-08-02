@@ -5,7 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="../assets/css/spinner.css" rel="stylesheet">
 
+       
         <script>
+            function sanitizeFilename(filename) {
+                return filename.replace(/[^\w\s.-]/g, '').trim();
+            }
+
             $(document).ready(function(){
 
                 $('#loader2').hide();
@@ -14,7 +19,12 @@
 
                 $('#logicalCorpora').DataTable( {
                     ordering: true,
-                    pageLength: 10
+                    pageLength: 10,
+                    responsive: true,
+                    columnDefs: [
+                            { responsivePriority: 1, targets: -1 },
+                            { responsivePriority: 2, targets: 0 }
+                    ]
                 } );                
             });
 
@@ -33,9 +43,18 @@
             $("#btncheck").click(function () {
 
                 //$("#labelModelName").html ($("input:checkbox:checked").attr("id"));   
-                $("#labelModelName").html ($('.nameset:checked').val());
-                $("#labelModelNameh").val ($('.nameset:checked').val());      
+                $modelName = sanitizeFilename ($('.nameset:checked').val());
+                $("#labelModelName").html ($modelName);
+                $("#labelModelNameh").val ($modelName);
+
                 
+                $modelPath = $("#labelModelPathh").val().replace('__MODEL-NAME__', $modelName);
+                
+                
+                $("#labelModelPathh").val (($modelPath));
+
+
+
             });
 
         </script>
@@ -62,7 +81,7 @@
                         
                         $table = '
 
-                                <table id="logicalCorpora" class="table table-fit table-striped">       
+                                <table id="logicalCorpora" class="table-striped table table-bordered table-hover nowrap" style="width:100%">     
                                        <thead>
                                           <tr>                                    
                                 ';
@@ -86,7 +105,7 @@
                             $table = $table . '<tr>';
                             foreach ($listkeys as $key){
                                 if ($key <> 'Dtsets') {                                    
-                                    $table = $table . '<td>' . $value[$key] . '</td>';
+                                    $table = $table . '<td >' . $value[$key] . '</td>';
                                 }
                             } 
 
@@ -100,6 +119,7 @@
                                 <input type="radio" name="dtset"  class="nameset" id="' . $value['name'] . '"  value="'. $value['name'] .'">
                                 ';                                
                             }
+
 
                             $count++;
                             
@@ -185,6 +205,7 @@
                                     <div class="col">
                                         <label  id="labelModelName" for="inputState">Model:</label>                                        
                                         <input id="labelModelNameh" name="modelName" type="hidden"  value="">
+                                        <input id="labelModelPathh" type="hidden" name="modelNamePath" value="<?php include 'fileOp.php'; echo (join_paths ($_SESSION['path_TMmodels'],'__MODEL-NAME___'.  $_SESSION['user']));?>">
                                     </div>
                                 </div>
 
@@ -286,9 +307,9 @@
                                         </div>
 				</div>
 
-                            </div>
-
                             <div class="modal-footer">
+                                <p style="color:red !important;">Caution: If the model has been previously trained by the user, the data will be overwritten.</p>
+
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Train</button>
                             </div>

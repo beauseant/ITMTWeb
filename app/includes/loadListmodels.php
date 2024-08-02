@@ -13,7 +13,12 @@
 
                 $('#listModels').DataTable( {
                     ordering: true,
-                    pageLength: 10
+                    pageLength: 10,
+                    responsive: true,
+                    columnDefs: [
+                            { responsivePriority: 1, targets: -1 },
+                            { responsivePriority: 2, targets: 0 }
+                    ]                    
                 } );
 
             });
@@ -25,6 +30,19 @@
     </head>
     <body>    
     <?php
+
+
+                    /*include 'fileOp.php';                    
+                    $dirTree = dirToArray($_SESSION['path_TMmodels']);
+
+                    #Comprobamos que los modelos del directorio sean correctos antes de listarlos.
+                    foreach ( $dirTree as $k=>$v){                        
+                        if  (!in_array ('corpus.txt',$v)){
+                            print ($k);
+                        }
+                                                
+                    }
+                    exit();*/
                     try {
                         $data = shell_exec ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/manageModels.py --listTMmodels --path_TMmodels '. $_SESSION['path_TMmodels'] . ' 2>&1');
                         //guardamos la salida original por si da error poder imprimirla.
@@ -39,6 +57,7 @@
                                         '  . $ex -> getMessage() . $dataorg .'
                                 </div>
                         ';
+                        #print ('/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/manageModels.py --listTMmodels --path_TMmodels '. $_SESSION['path_TMmodels'] . ' 2>&1');
                         $data = array();
                         $listkeys = array();
                         exit();
@@ -76,10 +95,8 @@
                             unset($listkeys[$key]);
                         }
 
-
-                        
                         $table = '
-                                <table id="listModels" class="table table-fit table-striped ">                                    
+                                <table id="listModels" class="table-striped table table-bordered table-hover nowrap" style="width:100%">
                                         <thead>
                                             <tr>                                    
                                 ';

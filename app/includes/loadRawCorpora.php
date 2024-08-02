@@ -18,7 +18,12 @@
 
                 $('#rawCorpora').DataTable( {
                     ordering: true,
-                    pageLength: 10
+                    pageLength: 10,
+                    responsive: true,
+                    columnDefs: [
+                            { responsivePriority: 1, targets: -1 },
+                            { responsivePriority: 2, targets: 0 }
+                    ]      
                 } );
 
             });
@@ -109,7 +114,7 @@
                           <div class="container-fluid">
                                 <h3 style="color:#f03c02; text-align:left !important;">Corpus to be included:</h3>
                                 <hr></hr>                         
-                                <table id="rawCorpora" class="table  table-fit table-striped">                                   
+                                <table id="rawCorpora" class="table-striped table table-bordered table-hover nowrap" style="width:100%">                             
                                        <thead>
                                           <tr>                                    
                         ';

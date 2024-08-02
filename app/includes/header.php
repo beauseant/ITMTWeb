@@ -4,7 +4,7 @@
 if ($_SERVER['PHP_SELF'] =='/itmt.php') {
     $hedaer_text='';
 }else{
-    $hedaer_text= '<h1 class="text-light"><a href="index.php">TARS: Interactive Model Trainer</a></h1>';
+    $hedaer_text= '<h1 class="text-light"><a href="itmt.php">TARS: Interactive Model Trainer</a></h1>';
 }
 
 echo '

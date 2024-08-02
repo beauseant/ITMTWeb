@@ -57,8 +57,19 @@ En el ejemplo anterior, dentro de /export/usuarios_ml4ds/lbartolome/ debemos ten
 Es necesario definir el id del usuario y el grupo (para montar en el contenedor con permisos de lectura y escritura) y la clave de OPENAI que se le pasará a los scripts:
  
  ```bash
- export UID=$(id -u)
+ export MYUID=$(id -u)
  export GID=$(id -g)
+ export OPENAI_API_KEY=sk-XXXXXX
+
+ ```
+
+ En el caso de que el dueño del repositorio con los modelos no sea el usuario actual, debe ponerse el id que le corresponda. Por ejemplo:
+
+  ```bash
+  id fulanito
+  uid=2881(fulanito) gid=100(users) groups=100(users),27(sudo),121(docker),10555(intelcomp),10553(ml4ds),2622(cluster)
+ export MYUID=2881
+ export GID=100
  export OPENAI_API_KEY=sk-XXXXXX
 
  ```

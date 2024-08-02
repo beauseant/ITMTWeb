@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
   <?php include 'includes/head.php';?>
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 </head>
 
 <body>
@@ -23,7 +24,7 @@
             <div class="carousel-content animate__animated animate__fadeInUp">
               <h2>TARS: Interactive Model Trainer</h2>
               <img src="assets/img/logoitmt2.png" alt="TARS" class="center" height="300px">
-              <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
+              <div class="text-center"><a href="info.php" class="btn-get-started">Read More</a></div>
             </div>
           </div>
         </div>

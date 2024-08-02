@@ -60,16 +60,21 @@
           <div class="row">
                 <div class="col-sm">
                     <?php
+
+                        include 'includes/fileOp.php';
                         if (!isset ($_POST['modelName'])){
                             echo '<div class="alert alert-danger" role="alert">
                                       Model name not specified
                                   </div>';
                             exit();
                         }
+
+
+
                         if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/topicmodeler/.env")) {
                               $apikey = explode("=", file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/topicmodeler/.env"))[1];
                               echo '<div class="alert alert-success" role="alert">
-                                        OPEN API KEY file found!!!!                                        
+                                    OPEN API KEY file    found!!!! 
                                   </div>';
                         }else {
                           echo '<div class="alert alert-danger" role="alert">
@@ -78,34 +83,58 @@
                               exit();
                         
                         }                  
+
+
+
                     ?>
-                    Entrenando el modelo, por favor espere...
-		                <br><br>
-		                El fichero de configuración generado es el siguiente:
-                    <br><br>
+
                     <?php
                             require_once ('includes/class/class.TrDtsets.php');
+
+
                             $tl = new trdList();
                             $data = $tl ->getTrDtsetsByName ($_POST['modelName']);
                             $_POST['key'] = $data['key'];
 
+                            $modelPath = join_paths ($_SESSION['path_TMmodels'],filter_filename ($_POST['modelName']) . '_'.  $_SESSION['user']);
+
+                            if (file_exists($modelPath)) {
+                                echo ' 
+                                    <div class="alert alert-danger" role="alert">
+                                            The selected model has already been trained by the user, the data will be overwritten.
+                                    </div>
+                                ';
+                                deleteDir($modelPath);
+                            }
+
+                            echo '    Entrenando el modelo, por favor espere...
+		                                  <br><br>
+		                                  El fichero de configuración generado es el siguiente:
+                                      <br><br>';
+                            createDirectory ($modelPath);
+			                      $trainFile = join_paths ($modelPath, 'trainconfig.json');
+
                             require_once ('includes/class/class.TrainingFiles.php');
                             $tf = new trainFiles ($_POST);
                             print ($tf -> getData( $asString = True));
-                            $tf -> saveFile ($_SESSION['temporaltrainfile']);
+                            $tf -> saveFile ($trainFile);
 
-                            $cmd = '/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/topicmodeling.py --open_ai_key '. $apikey .' --do_logger True --train --config ' .$_SESSION['temporaltrainfile']. ' 2>&1';
-                            echo "<br><br> El comando será:<br><br>";
+                            
+                            #$cmd = '/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/topicmodeling.py --open_ai_key '. $apikey .' --do_logger True --train --config ' .$_SESSION['temporaltrainfile']. ' 2>&1';
+                            $cmd = '/var/www/html/assets/data/launch.sh "' . $apikey . '" ' . $trainFile;
+                            #echo "<br><br> El comando será:<br><br>";
 
                             #$api = getenv('OPENAI_API_KEY', true) ?: getenv('OPENAI_API_KEY');
                             #print_r( $api );                            
-                            echo '/usr/bin/python3.9 /var/www/html/topicmodeler/src/topicmodeling/topicmodeling.py --open_ai_key '. 'XXXXXXXX' .' --do_logger True --train --config ' .$_SESSION['temporaltrainfile']. ' 2>&1';
+                            #echo $cmd;
 		                  ?>
                 </div>
                 <div class="col-sm">
                       <div class="scroll">
                         <?php
-
+                                $output=null;
+                                $retval=null;
+                                exec('export MPLCONFIGDIR=/tmp', $output, $retval);
                                 $descriptorspec = array(
                                 0 => array("pipe", "r"),   // stdin is a pipe that the child will read from
                                 1 => array("pipe", "w"),   // stdout is a pipe that the child will write to

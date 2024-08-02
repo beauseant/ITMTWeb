@@ -11,12 +11,12 @@
             $name = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $name);
             $name = mb_ereg_replace("([\.]{2,})", '', $name);
             $name = str_replace(' ','',$name);
-            return $name;
+            return  ($name);
     }
 
     function saveArrayAsJsonFile($data, $filename){
 
-        $json = json_encode($data);
+        $json = json_encode($data, JSON_UNESCAPED_SLASHES);
         $len = file_put_contents($filename, $json);
 
         $error = ($len==0) ? True : False;
@@ -40,4 +40,87 @@
 
     }
 
+    function join_paths(...$parts) {
+        if (sizeof($parts) === 0) return '';
+        $prefix = ($parts[0] === DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';
+        $processed = array_filter(array_map(function ($part) {
+            return rtrim($part, DIRECTORY_SEPARATOR);
+        }, $parts), function ($part) {
+            return !empty($part);
+        });
+        return $prefix . implode(DIRECTORY_SEPARATOR, $processed);
+    }
+
+    function createDirectory ($path){
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+    }
+
+    function deleteDir(string $dirPath): void {
+        if (! is_dir($dirPath)) {
+            throw new InvalidArgumentException("$dirPath must be a directory");
+        }
+        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+            $dirPath .= '/';
+        }
+        $files = glob($dirPath . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                deleteDir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dirPath);
+    }
+    function dirToArray($dir) {
+
+   
+
+        $result = array();
+     
+     
+     
+        $cdir = scandir($dir);
+     
+        foreach ($cdir as $key => $value)
+     
+        {
+     
+           if (!in_array($value,array(".","..")))
+     
+           {
+     
+              if (is_dir($dir . DIRECTORY_SEPARATOR . $value))
+     
+              {
+     
+                 $result[$value] = dirToArray($dir . DIRECTORY_SEPARATOR . $value);
+     
+              }
+     
+              else
+     
+              {
+     
+                 $result[] = $value;
+     
+              } 
+     
+           }
+     
+        }
+     
+        
+     
+        return $result;
+     
+     }
+
+
 ?>
+
+
+
+

@@ -152,11 +152,12 @@
                     $Dtsets = array();
                     $Dtsets['id'] =  uniqid();
                     $Dtsets['description'] = $_POST['description'];
-                    $Dtsets['name'] = $_POST['name'];
+                    $Dtsets['name'] = trim ($_POST['name']);
                     $Dtsets['creator'] = 'ITMTWeb';
                     $Dtsets['valid_for'] = 'TM';
                     $Dtsets['creation_date'] = gmdate('Y-m-d h:i:s \G\M\T');
                     $Dtsets['visibility'] = $_POST['private'];
+                    $Dtsets['Dtsets'] = array();
 
                     foreach ($modelsSelected as $model => $fields) {
                         $item = array();
@@ -180,8 +181,8 @@
                         }
 
                         }
-                        $item['lemmasflds'] = $lemmas;
-                        $Dtsets['Dtsets']= $item;
+                        $item['lemmasfld'] = $lemmas;
+                        array_push ($Dtsets['Dtsets'], $item);
                     }
                     $data = json_encode($Dtsets, JSON_UNESCAPED_SLASHES);
                     $file = $_SESSION['path_datasets'] . '/' . $Dtsets['name'] . '.json';

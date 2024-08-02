@@ -1,4 +1,11 @@
 <?php
+    session_set_cookie_params([
+        'lifetime' => 0
+        , 'path' => '/'
+        , 'secure' => false
+        , 'httponly' => true
+        , 'samesite' => 'Lax'
+    ]);
     session_start();
     session_regenerate_id();
     if(!isset($_SESSION['user']))      // if there is no valid session
